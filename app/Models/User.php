@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
+use App\Models\Attendance;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
@@ -20,6 +21,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'is_admin',
+        'photo'
     ];
 
     /**
@@ -40,4 +43,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Get all of the attendance for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function attendance(): HasMany
+    {
+        return $this->hasMany(Attendance::class);
+    }
 }
