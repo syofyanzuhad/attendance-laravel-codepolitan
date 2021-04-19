@@ -51,7 +51,8 @@
                                     <th>ID</th>
                                     <th>User</th>
                                     <th>Status</th>
-                                    <th>Time</th>
+                                    <th>Check In Time</th>
+                                    <th>Check Out Time</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -80,11 +81,17 @@
             columns: [
                 {data: 'DT_RowIndex', name: 'id'},
                 {data: 'user.name', name: 'user.name'},
-                {data: 'status', name: 'status'},
+                {data: function(row) {
+                    return row.status ? "Check Out" : "Check In"
+                }, name: 'status'},
                 {data: function(row) {
                     let date = new Date(row.created_at);
                     return date.toLocaleString();
                 }, name: 'created_at'},
+                {data: function(row) {
+                    let date = new Date(row.updated_at);
+                    return date.toLocaleString();
+                }, name: 'updated_at'},
                 {data: 'action', name: 'action', orderable: false, searchable: false}
             ]
         });
