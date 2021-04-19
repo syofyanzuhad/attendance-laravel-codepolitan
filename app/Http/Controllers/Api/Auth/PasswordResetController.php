@@ -7,9 +7,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\PasswordReset;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 
 class PasswordResetController extends Controller
 {
+    use SendsPasswordResetEmails;
 
     public function reset(Request $request)
     {

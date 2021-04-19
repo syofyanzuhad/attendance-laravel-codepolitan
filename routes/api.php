@@ -25,6 +25,7 @@ Route::prefix('auth')->group(function () {
         Route::post('logout', [AuthController::class, 'logout']);
         
         Route::post('password/reset', [PasswordResetController::class, 'reset']);
+        Route::post('password/forgot', [PasswordResetController::class, 'sendResetLinkEmail']);
     });
 });
 
