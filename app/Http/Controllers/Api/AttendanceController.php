@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Carbon\Carbon;
 use App\Traits\ImageStorage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -12,6 +13,7 @@ class AttendanceController extends Controller
 {
 
     use ImageStorage;
+
     /**
      * Store presence status
      * @param Request $request
@@ -21,8 +23,6 @@ class AttendanceController extends Controller
      */
     public function store(Request $request)
     {
-
-        // dd($request->all());
         $request->validate([
             'long' => ['required'],
             'lat' => ['required'],
@@ -129,4 +129,35 @@ class AttendanceController extends Controller
         }
     }
 
+    /**
+     * Get List Presences by User
+     * @param Request $request
+     * @return JsonResponse
+     * @throws BindingResolutionException
+     */
+    public function history(Request $request)
+    {
+        $request->validate(
+            [
+                'from' => ['required'],
+                'to' => ['required'],
+            ]
+        );
+
+        $history = $request->user()->attendances()->with('detail')
+            ->whereBetween(
+                DB::raw('DATE(created_at)'),
+                [
+                    $request->from, $request->to
+                ]
+            )->get();
+
+        return response()->json(
+            [
+                'message' => "list of presences by user",
+                'data' => $history,
+            ],
+            Response::HTTP_OK
+        );
+    }
 }

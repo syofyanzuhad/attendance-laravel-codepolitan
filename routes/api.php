@@ -30,4 +30,5 @@ Route::prefix('auth')->group(function () {
 
 Route::middleware('auth:sanctum')->group(function() {
     Route::post('attendance', [AttendanceController::class, 'store']);
+    Route::get('attendance/history', [AttendanceController::class, 'history']);
 });
