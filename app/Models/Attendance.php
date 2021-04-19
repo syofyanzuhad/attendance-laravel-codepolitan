@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\AttendanceDetail;
 use Illuminate\Database\Eloquent\Model;
@@ -12,6 +13,12 @@ class Attendance extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public function scopeCountAttendance($query, $status)
+    {
+        return $query->whereDate('created_at', Carbon::today())
+                ->where('status', $status)->count();
+    }
 
     public function detail()
     {
