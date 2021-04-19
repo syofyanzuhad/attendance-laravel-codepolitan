@@ -21,8 +21,10 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Route::resource('user', UserController::class);
-
-Route::resource('attendance', AttendanceController::class)->only(['index', 'show']);
+Route::middleware('is_admin')->group(function () {
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    
+    Route::resource('user', UserController::class);
+    
+    Route::resource('attendance', AttendanceController::class)->only(['index', 'show']);
+});
